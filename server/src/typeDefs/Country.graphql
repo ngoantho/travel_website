@@ -1,0 +1,24 @@
+type Country {
+  id: ID!
+  name: String!
+  places: [Place!]!
+}
+
+extend type Query {
+  countries(filter: String): [Country!]!
+  country(id: ID!): CountryResults
+}
+
+type CountryResults {
+  attractions: [Attraction!]!
+  places: [Place!]!
+}
+
+extend type Mutation {
+  addCountry(input: CountryInput!): Country
+  removeCountry(input: CountryInput!): Country
+}
+
+input CountryInput {
+  name: String!
+}

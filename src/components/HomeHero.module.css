@@ -1,0 +1,38 @@
+.wrapper {
+	display: grid;
+	min-height: calc(100vh / 3 * 2);
+}
+
+.bg {
+	width: 100%;
+	height: 100%;
+	background: lightsalmon;
+	filter: opacity(10%);
+	grid-area: 1 / 1 / 1 / 1;
+}
+
+.overlay {
+	grid-area: 1 / 1 / 1 / 1;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.row_title {
+	justify-content: center;
+}
+
+.row_search {
+	width: 50%;
+	background: white;
+	padding-left: 2rem;
+	padding-bottom: 1rem;
+	padding-top: 2.5rem;
+	padding-right: 2rem;
+	border-radius: 0.5rem;
+}
+
+.fit_content {
+	width: fit-content;
+}

@@ -1,0 +1,24 @@
+type Attraction {
+  id: ID!
+  name: String!
+  description: String!
+  price: Int
+  locatedIn: Place!
+  reviews: [Review!]!
+}
+
+extend type Query {
+  attraction(id: ID!): Attraction
+}
+
+extend type Mutation {
+  addAttraction(input: AttractionInput!): Attraction
+  removeAttraction(input: AttractionInput!): Attraction
+}
+
+input AttractionInput {
+  name: String!
+  description: String!
+  price: Int
+  locatedIn: PlaceInput!
+}

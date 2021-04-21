@@ -1,0 +1,23 @@
+type Place {
+  id: ID!
+  city: String!
+  state: String
+  country: Country!
+  attractions: [Attraction!]!
+}
+
+extend type Query {
+  places(filter: String): [Place!]!
+  place(id: ID!): [Attraction!]
+}
+
+extend type Mutation {
+  addPlace(input: PlaceInput!): Place
+  removePlace(id: ID!): Place
+}
+
+input PlaceInput {
+  city: String!
+  state: String
+  country: CountryInput!
+}

@@ -1,0 +1,17 @@
+type User {
+  id: ID!
+  name: String!
+  email: String!
+  reviews: [Review!]!
+  admin: Boolean
+}
+
+extend type Mutation {
+  signup(email: String!, password: String!, name: String!, admin: Boolean): AuthPayload
+  login(email: String!, password: String!): AuthPayload
+}
+
+type AuthPayload {
+  token: String
+  user: User
+}
