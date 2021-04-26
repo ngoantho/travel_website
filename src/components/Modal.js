@@ -14,11 +14,11 @@ function ClientOnlyPortal({ children, selector }) {
   return mounted ? createPortal(children, ref.current) : null
 }
 
-export default ({selector, render}) => (
+export default ({selector, render, ...props}) => (
 	<ClientOnlyPortal selector={selector}>
 		<div class={styles.backdrop}>
-			<div class={styles.modal}>
-				{render}
+			<div class={styles.modal} {...props}>
+				{render()}
 			</div>
 		</div>
 	</ClientOnlyPortal>

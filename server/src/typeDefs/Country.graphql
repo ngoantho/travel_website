@@ -6,7 +6,8 @@ type Country {
 
 extend type Query {
   countries(filter: String): [Country!]!
-  country(id: ID!): CountryResults
+	country(id: ID!): Country
+  placesAndAttractions(id: ID!): CountryResults
 }
 
 type CountryResults {

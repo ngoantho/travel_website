@@ -1,6 +1,6 @@
 .wrapper {
 	display: grid;
-	min-height: calc(100vh / 3 * 2);
+	min-height: 75vh;
 }
 
 .bg {
@@ -31,6 +31,14 @@
 	padding-top: 2.5rem;
 	padding-right: 2rem;
 	border-radius: 0.5rem;
+}
+
+.search_box {
+	cursor: default;
+}
+
+.search_box:hover {
+	cursor: pointer;
 }
 
 .fit_content {

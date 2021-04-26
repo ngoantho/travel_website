@@ -8,7 +8,8 @@ type Place {
 
 extend type Query {
   places(filter: String): [Place!]!
-  place(id: ID!): [Attraction!]
+	place(id: ID!): Place
+  attractionsHere(id: ID!): [Attraction!]
 }
 
 extend type Mutation {

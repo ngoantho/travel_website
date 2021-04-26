@@ -1,1 +1,26 @@
+.result_link {
+	background: initial;
+	cursor: initial;
+	padding-left: 1rem !important;
+}
 
+.result_link:hover {
+	background: aliceblue;
+	cursor: pointer;
+}
+
+.main_row {
+	display: flex;
+	border-bottom: 0.1rem solid #d1d1d1;
+}
+
+.input {
+	margin: 0;
+	border-width: 0 !important;
+}
+
+.close_btn {
+	padding: 0 2rem;
+	font-size: larger;
+	margin: 0;
+}

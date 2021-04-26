@@ -25,15 +25,17 @@ function places(parent, args, ctx) {
  * @param {{ prisma: Prisma }} ctx
  */
 async function countries(parent, args, ctx) {
-  const where = args.filter ? {
-    name: {
-      contains: args.filter
-    }
-  } : {}
+  const where = args.filter
+    ? {
+        name: {
+          contains: args.filter,
+        },
+      }
+    : {};
 
   const results = await ctx.prisma.country.findMany({
-    where
-  })
+    where,
+  });
 
   return results;
 }
@@ -46,9 +48,28 @@ async function countries(parent, args, ctx) {
 async function country(parent, args, ctx) {
   let country = await ctx.prisma.country.findUnique({
     where: {
-      id: Number(args.id)
-    }
-  })
+      id: Number(args.id),
+    },
+  });
+
+  if (!country) {
+    throw new Error(`Specified country ${args.id} does not exist`);
+  }
+
+  return country;
+}
+
+/**
+ * @param {any} parent
+ * @param {any} args
+ * @param {{ prisma: Prisma }} ctx
+ */
+async function placesAndAttractions(parent, args, ctx) {
+  let country = await ctx.prisma.country.findUnique({
+    where: {
+      id: Number(args.id),
+    },
+  });
 
   if (!country) {
     throw new Error(`Specified country ${args.id} does not exist`);
@@ -57,20 +78,22 @@ async function country(parent, args, ctx) {
   let places = await ctx.prisma.place.findMany({
     where: {
       countryId: country.id,
-    }
-  })
+    },
+  });
 
-  let attractions = await Promise.all(places.map(async (place) => {
-    return await ctx.prisma.attraction.findMany({
-      where: {
-        locatedInId: place.id
-      }
+  let attractions = await Promise.all(
+    places.map(async (place) => {
+      return await ctx.prisma.attraction.findMany({
+        where: {
+          locatedInId: place.id,
+        },
+      });
     })
-  }))
+  );
 
   return {
     places,
-    attractions: attractions.flat()
+    attractions: attractions.flat(),
   };
 }
 
@@ -84,18 +107,18 @@ async function addCountry(parent, args, ctx) {
 
   const user = ctx.prisma.user.findUnique({
     where: {
-      id: ctx.userId
-    }
-  })
+      id: ctx.userId,
+    },
+  });
   if (!user.admin) {
     throw new Error("Not authenticated as admin");
   }
 
   const newCountry = await ctx.prisma.country.create({
     data: {
-      name: input.name
-    }
-  })
+      name: input.name,
+    },
+  });
 
   return newCountry;
 }
@@ -110,18 +133,18 @@ async function removeCountry(parent, args, ctx) {
 
   const user = ctx.prisma.user.findUnique({
     where: {
-      id: ctx.userId
-    }
-  })
+      id: ctx.userId,
+    },
+  });
   if (!user.admin) {
     throw new Error("Not authenticated as admin");
   }
-  
+
   let country = await ctx.prisma.country.findUnique({
     where: {
-      name: input.name
-    }
-  })
+      name: input.name,
+    },
+  });
 
   if (!country) {
     throw new Error(`Specified country ${args.id} does not exist`);
@@ -129,22 +152,23 @@ async function removeCountry(parent, args, ctx) {
 
   let old = await ctx.prisma.country.delete({
     where: {
-      name: input.name
-    }
-  })
+      name: input.name,
+    },
+  });
   return old;
 }
 
 module.exports = {
   queries: {
     countries,
-    country
+    country,
+    placesAndAttractions,
   },
   mutations: {
     addCountry,
-    removeCountry
+    removeCountry,
   },
   resolvers: {
-    places
-  }
+    places,
+  },
 };
